@@ -12,12 +12,15 @@ public class PlayerMovements : MonoBehaviour
     public float springStrength;
     public CapsuleCollider2D capsuleCollider;
     public float targetAngle;
+    private LightAndShadowController lightAndShadowController;
+
     // Start is called before the first frame update
     void Start()
     {
         playerActions = new PlayerActions();
         playerActions.Movements.Enable();
         rb = GetComponent<Rigidbody2D>();
+        lightAndShadowController = GetComponent<LightAndShadowController>();
     }
 
     // Update is called once per frame
@@ -31,11 +34,13 @@ public class PlayerMovements : MonoBehaviour
             visuals.localScale = new Vector3(-1, 1, 0);
             capsuleCollider.offset = new Vector2 (0.37f, 0);
             targetAngle = 20;
+            lightAndShadowController.flipped = true;
         }else if(direction.x > 0)
         {
             visuals.localScale = new Vector3(1, 1, 0);
             capsuleCollider.offset = new Vector2(-0.37f, 0);
             targetAngle = -20;
+            lightAndShadowController.flipped = false;
         } else
         {
             targetAngle = 0;

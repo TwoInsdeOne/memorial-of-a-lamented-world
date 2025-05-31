@@ -8,24 +8,26 @@ public class LightAndShadowController : MonoBehaviour
     public int current_frame;
     public SpriteRenderer coreSL;
     public SpriteRenderer bodySL;
+    public string corePathName;
+    public string bodyPathName;
     public List<Sprite> coreSL_list;
     public List<Sprite> bodySL_list;
     public float angleToLightSource;
-    public PlayerMovements playerMovements;
+    //public PlayerMovements playerMovements;
     public Transform lights;
     public float maxDistanceForSL;
+    public bool flipped;
     // Start is called before the first frame update
     void Start()
     {
         coreSL_list = new List<Sprite>();
 
-        string corename = "Sprites/caladriusCoreSL/caladrius_";
-        string bodyname = "Sprites/caladriusBodySL/bodyL&S_";
+        
         int i = 360;
         while(i >= 1)
         {
-            coreSL_list.Add(Resources.Load<Sprite>(corename + string.Format("{0:D5}", i) ));
-            bodySL_list.Add(Resources.Load<Sprite>(bodyname + string.Format("{0:D5}", i)));
+            coreSL_list.Add(Resources.Load<Sprite>(corePathName + string.Format("{0:D5}", i) ));
+            bodySL_list.Add(Resources.Load<Sprite>(bodyPathName + string.Format("{0:D5}", i)));
             i--;
         }
     }
@@ -41,10 +43,13 @@ public class LightAndShadowController : MonoBehaviour
         angleToLightSource = Mathf.Atan2(transform.position.y - lightsource.position.y, transform.position.x - lightsource.position.x);
         
         current_frame = ConvertAngle(angleToLightSource + Mathf.PI - Mathf.PI/2);
-        if (playerMovements.Flipped() == -1)
+        if (flipped)
         {
             current_frame = 359 - ConvertAngle(angleToLightSource + Mathf.PI - Mathf.PI / 2);
         }
+        //if (playerMovements.Flipped() == -1){
+            //current_frame = 359 - ConvertAngle(angleToLightSource + Mathf.PI - Mathf.PI / 2);
+        //}
         coreSL.sprite = coreSL_list[current_frame];
         bodySL.sprite = bodySL_list[current_frame];
 

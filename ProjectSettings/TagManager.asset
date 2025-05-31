@@ -11,8 +11,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - rocks
+  - player
   - 
   - 
   - 
@@ -46,4 +46,10 @@ TagManager:
     locked: 0
   - name: player
     uniqueID: 875322067
+    locked: 0
+  - name: player 2
+    uniqueID: 1040932427
+    locked: 0
+  - name: water
+    uniqueID: 1541564567
     locked: 0
