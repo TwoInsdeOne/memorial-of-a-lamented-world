@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Enemy
+  - Item
+  - PlayerBullet
+  - EnemyBullet
   layers:
   - Default
   - TransparentFX
@@ -52,4 +56,10 @@ TagManager:
     locked: 0
   - name: water
     uniqueID: 1541564567
+    locked: 0
+  - name: vfx
+    uniqueID: 3518638917
+    locked: 0
+  - name: UI
+    uniqueID: 493194189
     locked: 0

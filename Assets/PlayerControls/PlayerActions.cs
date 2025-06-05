@@ -149,6 +149,117 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""Aiming"",
+            ""id"": ""7447d537-8eae-4b5d-b779-1c4b476b5bf2"",
+            ""actions"": [
+                {
+                    ""name"": ""Aim"",
+                    ""type"": ""Value"",
+                    ""id"": ""852ef528-9cf6-439f-bf1b-c2b5f1117c96"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""de1b1590-cd12-4b2d-a4d9-b02a8b5cf6b7"",
+                    ""path"": ""2DVector(mode=2)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Aim"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""998ee327-c886-4bd4-a869-9abf753383b2"",
+                    ""path"": ""<Gamepad>/rightStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""c898f138-c95d-421a-9732-72b0c93fdc57"",
+                    ""path"": ""<Gamepad>/rightStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""6a863ad1-5e8c-4c71-bd6b-8e12ac386b12"",
+                    ""path"": ""<Gamepad>/rightStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""46d78e77-c5d4-4c35-8d34-a80429d17f29"",
+                    ""path"": ""<Gamepad>/rightStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                }
+            ]
+        },
+        {
+            ""name"": ""Shotting"",
+            ""id"": ""d19e656a-af37-4091-b56b-6a090f79f2cc"",
+            ""actions"": [
+                {
+                    ""name"": ""Shot"",
+                    ""type"": ""Button"",
+                    ""id"": ""3d9f4eec-bb87-4f67-81b1-454cb015fd54"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""b8b053eb-feb5-45d2-843f-f4198afbb1a6"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8f2efd04-56c0-4d54-854a-26989ce93f49"",
+                    ""path"": ""<Keyboard>/g"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -156,6 +267,12 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         // Movements
         m_Movements = asset.FindActionMap("Movements", throwIfNotFound: true);
         m_Movements_Move = m_Movements.FindAction("Move", throwIfNotFound: true);
+        // Aiming
+        m_Aiming = asset.FindActionMap("Aiming", throwIfNotFound: true);
+        m_Aiming_Aim = m_Aiming.FindAction("Aim", throwIfNotFound: true);
+        // Shotting
+        m_Shotting = asset.FindActionMap("Shotting", throwIfNotFound: true);
+        m_Shotting_Shot = m_Shotting.FindAction("Shot", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -259,8 +376,108 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         }
     }
     public MovementsActions @Movements => new MovementsActions(this);
+
+    // Aiming
+    private readonly InputActionMap m_Aiming;
+    private List<IAimingActions> m_AimingActionsCallbackInterfaces = new List<IAimingActions>();
+    private readonly InputAction m_Aiming_Aim;
+    public struct AimingActions
+    {
+        private @PlayerActions m_Wrapper;
+        public AimingActions(@PlayerActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Aim => m_Wrapper.m_Aiming_Aim;
+        public InputActionMap Get() { return m_Wrapper.m_Aiming; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(AimingActions set) { return set.Get(); }
+        public void AddCallbacks(IAimingActions instance)
+        {
+            if (instance == null || m_Wrapper.m_AimingActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_AimingActionsCallbackInterfaces.Add(instance);
+            @Aim.started += instance.OnAim;
+            @Aim.performed += instance.OnAim;
+            @Aim.canceled += instance.OnAim;
+        }
+
+        private void UnregisterCallbacks(IAimingActions instance)
+        {
+            @Aim.started -= instance.OnAim;
+            @Aim.performed -= instance.OnAim;
+            @Aim.canceled -= instance.OnAim;
+        }
+
+        public void RemoveCallbacks(IAimingActions instance)
+        {
+            if (m_Wrapper.m_AimingActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IAimingActions instance)
+        {
+            foreach (var item in m_Wrapper.m_AimingActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_AimingActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public AimingActions @Aiming => new AimingActions(this);
+
+    // Shotting
+    private readonly InputActionMap m_Shotting;
+    private List<IShottingActions> m_ShottingActionsCallbackInterfaces = new List<IShottingActions>();
+    private readonly InputAction m_Shotting_Shot;
+    public struct ShottingActions
+    {
+        private @PlayerActions m_Wrapper;
+        public ShottingActions(@PlayerActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Shot => m_Wrapper.m_Shotting_Shot;
+        public InputActionMap Get() { return m_Wrapper.m_Shotting; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(ShottingActions set) { return set.Get(); }
+        public void AddCallbacks(IShottingActions instance)
+        {
+            if (instance == null || m_Wrapper.m_ShottingActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_ShottingActionsCallbackInterfaces.Add(instance);
+            @Shot.started += instance.OnShot;
+            @Shot.performed += instance.OnShot;
+            @Shot.canceled += instance.OnShot;
+        }
+
+        private void UnregisterCallbacks(IShottingActions instance)
+        {
+            @Shot.started -= instance.OnShot;
+            @Shot.performed -= instance.OnShot;
+            @Shot.canceled -= instance.OnShot;
+        }
+
+        public void RemoveCallbacks(IShottingActions instance)
+        {
+            if (m_Wrapper.m_ShottingActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IShottingActions instance)
+        {
+            foreach (var item in m_Wrapper.m_ShottingActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_ShottingActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public ShottingActions @Shotting => new ShottingActions(this);
     public interface IMovementsActions
     {
         void OnMove(InputAction.CallbackContext context);
+    }
+    public interface IAimingActions
+    {
+        void OnAim(InputAction.CallbackContext context);
+    }
+    public interface IShottingActions
+    {
+        void OnShot(InputAction.CallbackContext context);
     }
 }
