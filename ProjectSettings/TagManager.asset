@@ -8,6 +8,8 @@ TagManager:
   - Item
   - PlayerBullet
   - EnemyBullet
+  - EnergyBubble
+  - Bubble Ceil
   layers:
   - Default
   - TransparentFX

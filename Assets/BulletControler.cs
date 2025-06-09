@@ -12,6 +12,7 @@ public class BulletControler : MonoBehaviour
     public CircleCollider2D circleCollider;
     public GameObject bulletExplosionFX;
     public int damage;
+    public float energyCost;
     // Start is called before the first frame update
     void Start()
     {

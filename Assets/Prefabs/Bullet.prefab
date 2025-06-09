@@ -56,6 +56,7 @@ MonoBehaviour:
   circleCollider: {fileID: 1541808146348239374}
   bulletExplosionFX: {fileID: 6911755843767564654, guid: 51576fa2f2f48464b8d5eec9fe30f92a, type: 3}
   damage: 3
+  energyCost: 5
 --- !u!50 &7118483272671016885
 Rigidbody2D:
   serializedVersion: 4
