@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
 public class PlayerEnergy : MonoBehaviour
@@ -10,6 +11,8 @@ public class PlayerEnergy : MonoBehaviour
     public Slider energyBar;
     public float energyRecoverRate;
     public float energyShow;
+    public GameObject energyLightUpFX;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -46,7 +49,14 @@ public class PlayerEnergy : MonoBehaviour
         if(energy < 0) energy = 0;
 
     }
-
+    public void AddEnergy(float amount)
+    {
+        GameObject elufx = Instantiate(energyLightUpFX);
+        elufx.transform.parent = transform;
+        elufx.transform.localPosition = Vector3.zero;
+        energy += amount;
+        if (energy > maxEnergy) energy = maxEnergy;
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.tag == "EnergyBubble")
@@ -54,10 +64,10 @@ public class PlayerEnergy : MonoBehaviour
             EnergyBubble eb = collision.gameObject.GetComponent<EnergyBubble>();
             if (!eb.popped)
             {
-                energy += eb.energyAmount;
+                AddEnergy(eb.energyAmount);
                 eb.Pop();
             }
-            if (energy > maxEnergy) energy = maxEnergy;
+            
         }
     }
 }

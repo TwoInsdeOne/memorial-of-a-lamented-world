@@ -10,6 +10,7 @@ TagManager:
   - EnemyBullet
   - EnergyBubble
   - Bubble Ceil
+  - Cell
   layers:
   - Default
   - TransparentFX

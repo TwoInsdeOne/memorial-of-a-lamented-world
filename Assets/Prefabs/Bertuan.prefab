@@ -622,8 +622,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaa5cbef805c4e043999d958308619a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  items: []
-  chances: []
+  items:
+  - {fileID: 1420801357543706334, guid: 95b9f131d482c284a8b05cbbfd77ddaa, type: 3}
+  - {fileID: 1420801357543706334, guid: 95b9f131d482c284a8b05cbbfd77ddaa, type: 3}
+  - {fileID: 1706825525390721234, guid: 6e47c2db8e68086469976aa9804bb121, type: 3}
+  - {fileID: 1706825525390721234, guid: 6e47c2db8e68086469976aa9804bb121, type: 3}
+  chances:
+  - 0.5
+  - 0.2
+  - 0.5
+  - 0.2
 --- !u!95 &4815462123670444978
 Animator:
   serializedVersion: 5
@@ -1133,7 +1141,7 @@ MonoBehaviour:
   - {x: -2.0420477, y: -0.92219347, z: 0}
   m_ShapePathHash: -1764941526
   m_Mesh: {fileID: 0}
-  m_InstanceId: -2730
+  m_InstanceId: 229560
   m_LocalBounds:
     m_Center: {x: -0.48129916, y: -0.004070401, z: 0}
     m_Extent: {x: 1.8375835, y: 1.6157204, z: 0}

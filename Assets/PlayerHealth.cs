@@ -27,6 +27,11 @@ public class PlayerHealth : MonoBehaviour
             health = 0;
         }
     }
+    public void Heal(int amount)
+    {
+        health += amount;
+        if (health > maxHealth) health = maxHealth;
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.tag == "EnemyBullet")

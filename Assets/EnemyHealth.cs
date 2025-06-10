@@ -27,6 +27,11 @@ public class EnemyHealth : MonoBehaviour
             DeathAnimation();
         }
     }
+    public void Heal(int amount)
+    {
+        health += amount;
+        if (health > maxHealth) health = maxHealth;
+    }
     public void DeathAnimation()
     {
         drop.Drop();
